@@ -1,0 +1,79 @@
+<div class="container animated bounceInLeft">
+    <div class="row">
+        <div class="col-md-4 offset-md-4 col-10 offset-1 pl-0 pr-0">
+            <h1>Checkout</h1>
+            <h4 class="label text-capitalize table-bordered table-success">Your Total: {{total}} SEK </h4>
+            <div id="charge-error" class="alert alert-danger {{#if noErrors}}hidden{{/if}}"></div>
+                {{errMsg}}
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-5 col-12 pt-2">
+                            <h6 class="m-0"><strong>Payment Details</strong></h6>
+                        </div>
+                        <div class="col-md-7 col-12 icons">
+                            <i class="fab fa-cc-visa fa-2x" aria-hidden="true"></i>
+                            <i class="fab fa-cc-mastercard fa-2x" aria-hidden="true"></i>
+                            <i class="fab fa-cc-discover fa-2x" aria-hidden="true"></i>
+                            <i class="fab fa-cc-amex fa-2x" aria-hidden="true"></i>
+                            <i class="fab fa-cc-paypal fa-2x" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form action="/checkout" method="POST" id="checkout-form">
+                        <div class="form-group">
+                            <label for="name"><strong>NAME</strong></label>
+                            <input type="text" class="form-control " id="name" placeholder="card-name" name="name" required>
+                            <label for="address"><strong>ADDRESS</strong></label>
+                            <input type="text" class="form-control " id="address" placeholder=" Your address" name="address" required>
+                            <label for="card-name"><strong>CARD NAME</strong></label>
+                            <input type="text" class="form-control " id="card-name" placeholder="Card Holder Name" required>
+                            <label for="validationTooltipCardNumber"><strong>CARD NUMBER</strong></label>
+                            <div class="input-group">
+                                <input type="number" onkeydown="limit(this, 16);" onkeyup="limit(this, 16);" onkeyup="this.value = minmax(this.value, 0, 16)" class="form-control border-right-0" id="card-number"
+                                    placeholder="Card Number" required>
+                                    
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text rounded-right" id="validationTooltipCardNumber"><i
+                                            class="fa fa-credit-card"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-12">
+                                <div class="form-group">
+                                    <label for="card-expiry-month"><strong>EXPIRATION MONTH</strong></label>
+                                    <input type="number" min="01" max="12"onkeydown="limit(this, 2);" onkeyup="limit(this, 2);" onkeyup="this.value = minmax(this.value, 0, 2)"  class="form-control" id="card-expiry-month"
+                                        placeholder="MONTH" required>
+                                    <label for="card-expiry-year"><strong>EXPIRATION YEAR</strong></label>
+                                    <input type="number" min="2019" max="2025" onkeydown="limit(this, 4);" onkeyup="limit(this, 4);" onkeyup="this.value = minmax(this.value, 0, 4)"  class="form-control" id="card-expiry-year"
+                                        placeholder="YEAR" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <div class="form-group">
+                                    <label for="exampleInputCvcCode"><strong>CVC CODE</strong></label>
+                                    <input type="number" min="001" max="999" onkeydown="limit(this, 3);" onkeyup="limit(this, 3);" onkeyup="this.value = minmax(this.value, 0, 3)" class="form-control" id="card-cvc" placeholder="CVC" required>
+                                </div>
+                            </div>
+                        </div>
+                            <!-- Used to display Element errors. 4242424242424242 -->
+                             <div id="card-errors" role="alert"></div>
+                        <div class="form-group">
+                            <label for="exampleInputCouponCode"><strong>COUPON CODE</strong></label>
+                            <input type="text" class="form-control" id="exampleInputCouponCode"
+                                placeholder="Coupon Code">
+                        </div>
+                        <button type="submit" class="btn btn-info w-100 pb-2 pt-2">Buy now</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script src="/javascripts/checkout.js"></script>
+
